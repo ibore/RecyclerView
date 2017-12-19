@@ -36,7 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import me.ibore.widget.recycler.R;
+
 
 public class RecyclerTabLayout extends RecyclerView {
 

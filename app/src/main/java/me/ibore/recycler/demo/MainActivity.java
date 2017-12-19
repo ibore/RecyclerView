@@ -3,6 +3,7 @@ package me.ibore.recycler.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -23,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onBindRecyclerViewHolder(RecyclerHolder holder, List mDatas, int position) {
-
+                TextView textView = holder.getTextView(R.id.all);
             }
         };
+
     }
 }

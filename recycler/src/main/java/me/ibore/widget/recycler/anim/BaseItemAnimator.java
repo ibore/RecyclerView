@@ -12,8 +12,8 @@ import android.view.animation.Interpolator;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ibore.recycler.animators.helper.ViewHelper;
-import me.ibore.recycler.animators.holder.AnimateViewHolder;
+import me.ibore.widget.recycler.anim.helper.ViewHelper;
+import me.ibore.widget.recycler.anim.holder.AnimateViewHolder;
 
 
 public abstract class BaseItemAnimator extends SimpleItemAnimator {

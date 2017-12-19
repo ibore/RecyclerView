@@ -54,16 +54,18 @@ public abstract class RecyclerAdapter<T, VH extends RecyclerHolder> extends Recy
     }
 
     public void setDatas(List<T> datas) {
-        mDatas.clear();
-        this.mDatas = datas;
-        if (null != mDatas && mDatas.size() > 0) {
-            mIsShowContent = true;
-            if (null != mLoadMoreView) showLoadingMoreView();
-            notifyDataSetChanged();
+        if (null == datas) {
+            clearDatas();
         } else {
-            if (null != mLoadView) showEmptyView();
+            mDatas = datas;
+            if (mDatas.size() > 0) {
+                mIsShowContent = true;
+                if (null != mLoadMoreView) showLoadingMoreView();
+                notifyDataSetChanged();
+            } else {
+                if (null != mLoadView) showEmptyView();
+            }
         }
-
     }
     public List<T> getDatas() {
         return mDatas;
