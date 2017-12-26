@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import me.ibore.widget.RecyclerTabLayout;
 import me.ibore.widget.recycler.RecyclerAdapter;
 import me.ibore.widget.recycler.RecyclerHolder;
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        RecyclerTabLayout recyclerTabLayout = new RecyclerTabLayout(this);
         RecyclerAdapter<String, RecyclerHolder> adapter = new RecyclerAdapter<String, RecyclerHolder>() {
             @Override
             protected RecyclerHolder onCreateRecyclerViewHolder(ViewGroup parent, int viewType) {

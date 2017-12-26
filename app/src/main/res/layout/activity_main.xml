@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="me.ibore.recycler.demo.MainActivity">
 
-    <TextView
+    <me.ibore.widget.RecyclerTabLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
