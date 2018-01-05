@@ -93,6 +93,10 @@ public class CardRecyclerView extends RecyclerView {
             this.mDatas = datas;
         }
 
+        public List<T> getDatas() {
+            return mDatas;
+        }
+
         protected void delItem(int position) {
             if (null != mDatas && mDatas.size() > 0) {
                 mDatas.remove(position);
@@ -122,7 +126,7 @@ public class CardRecyclerView extends RecyclerView {
         }
 
         protected boolean isEnableDataRecycle() {
-            return true;
+            return false;
         }
 
         @Override
