@@ -4,8 +4,15 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 
-import me.ibore.widget.recycler.manager.CardManager;
+import java.util.ArrayList;
+import java.util.List;
+
+import me.ibore.widget.recycler.CommonAdapter;
 
 
 /**
@@ -47,8 +54,10 @@ public class CardRecyclerView extends RecyclerView {
 
     @Override
     public void setLayoutManager(LayoutManager layout) {
-        if (layout instanceof CardManager)
+        if (layout instanceof CardManager) {
             super.setLayoutManager(layout);
+        }
+
         else
             throw new IllegalArgumentException("");
     }
@@ -70,20 +79,90 @@ public class CardRecyclerView extends RecyclerView {
             getAdapter().delItem(0);
     }
 
-    public static abstract class CardAdapter<VH extends ViewHolder> extends Adapter<VH> {
+    public static abstract class CardAdapter<T> extends CommonAdapter<T> {
 
-        protected abstract void delItem(int position);
+        private List<T> tempDatas = new ArrayList<>();
 
-        protected abstract void recycleData();
+        protected void delItem(int position) {
+            if (null != getDatas() && getDatas().size() > 0) {
+                getDatas().remove(position);
+                notifyItemRemoved(position);
+            }
+        }
+
+        protected void recycleData() {
+            if (isEnableDataRecycle()) {
+                if (getDatas().size() > getVisibleCardCount() + 1) {
+                    tempDatas.add(getDatas().get(0));
+                    delItem(0);
+                } else {
+                    tempDatas.add(getDatas().get(0));
+                    getDatas().remove(0);
+                    notifyItemRemoved(0);
+                    int start = getDatas().size();
+                    getDatas().addAll(tempDatas);
+                    notifyItemRangeInserted(start, tempDatas.size());
+                    tempDatas.clear();
+                }
+            }
+        }
 
         public int getVisibleCardCount() {
             return 3;
         }
 
         protected boolean isEnableDataRecycle() {
-            return false;
+            return true;
+        }
+    }
+
+    public static abstract class CardManager extends RecyclerView.LayoutManager implements View.OnTouchListener {
+
+        protected int mScreenWidth;
+        protected int mScreenHeight;
+        protected OnCardDragListener mListener;
+        protected CardRecyclerView mRecyclerView;
+
+        public CardManager(Context context, CardRecyclerView recyclerView) {
+            this.mRecyclerView = recyclerView;
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            mScreenWidth = wm.getDefaultDisplay().getWidth();
+            mScreenHeight = wm.getDefaultDisplay().getHeight();
         }
 
+        @Override
+        public RecyclerView.LayoutParams generateDefaultLayoutParams() {
+            return new RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    RecyclerView.LayoutParams.WRAP_CONTENT);
+        }
+
+        public abstract void onLayoutCards(RecyclerView.Recycler recycler, RecyclerView.State state);
+
+        public abstract void dropCardNoTouch(int orientation);
+
+        @Override
+        public final void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            if (getItemCount() <= 0) {
+                removeAndRecycleAllViews(recycler);
+                return;
+            }
+            // remove all attached child views
+            detachAndScrapAttachedViews(recycler);
+            // re-layout
+            onLayoutCards(recycler, state);
+
+        }
+        public void setOnCardDragListener(OnCardDragListener listener) {
+            this.mListener = listener;
+        }
+
+    }
+
+    public interface OnCardDragListener {
+
+        void onDraggingStateChanged(View view, boolean isDragging, boolean isDropped, float offsetX, float offsetY);
+
+        void onCardDragging(View view, float offsetX, float offsetY);
     }
 
 }

@@ -19,7 +19,7 @@ import me.ibore.widget.CardRecyclerView;
  * Created by Administrator on 2017/12/26.
  */
 
-public class TowerCardManager extends CardManager {
+public class TowerCardManager extends CardRecyclerView.CardManager {
 
 
     private float mTouchDownX = 0;
@@ -37,8 +37,6 @@ public class TowerCardManager extends CardManager {
 
     public TowerCardManager(Context context, CardRecyclerView recyclerView) {
         super(context, recyclerView);
-        // forbidden the default item animator
-//        ((DefaultItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mRecyclerView.setItemAnimator(null);
         mDragThresholdX = mScreenWidth / 3;
         mDragThresholdY = mScreenHeight / 3;

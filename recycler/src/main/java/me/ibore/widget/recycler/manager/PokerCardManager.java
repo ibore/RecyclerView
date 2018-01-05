@@ -19,7 +19,7 @@ import me.ibore.widget.CardRecyclerView;
  * Created by Administrator on 2017/12/26.
  */
 
-public class PokerCardManager extends CardManager {
+public class PokerCardManager extends CardRecyclerView.CardManager {
 
     private float mTouchDownX = 0, mTouchDownY = 0;
     private boolean mIsTouchUp = false;
