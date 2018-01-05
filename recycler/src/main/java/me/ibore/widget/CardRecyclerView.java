@@ -155,7 +155,6 @@ public class CardRecyclerView extends RecyclerView {
         public void setOnCardDragListener(OnCardDragListener listener) {
             this.mListener = listener;
         }
-
     }
 
     public interface OnCardDragListener {
