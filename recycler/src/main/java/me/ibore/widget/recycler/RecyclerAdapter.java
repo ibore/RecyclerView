@@ -61,11 +61,11 @@ public abstract class RecyclerAdapter<T, VH extends RecyclerHolder> extends Recy
             if (mDatas.size() > 0) {
                 mIsShowContent = true;
                 if (null != mLoadMoreView) showLoadingMoreView();
-                notifyDataSetChanged();
             } else {
                 if (null != mLoadView) showEmptyView();
             }
         }
+        notifyDataSetChanged();
     }
     public List<T> getDatas() {
         return mDatas;

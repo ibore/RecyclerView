@@ -362,9 +362,8 @@ public class TowerCardManager extends CardRecyclerView.CardManager {
     private void dispatchOnDragEvent(View view, boolean isDragging, boolean isDropped,
                                      float offsetX, float offsetY) {
         if (null != mListener) {
-            mListener.onDraggingStateChanged(view, isDragging, isDropped, offsetX, offsetY);
-            if (isDragging)
-                mListener.onCardDragging(view, offsetX, offsetY);
+            mListener.onCardDrag(view, isDragging, isDropped, offsetX, offsetY);
+
         }
     }
 }

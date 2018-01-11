@@ -192,9 +192,8 @@ public class CardRecyclerView extends RecyclerView {
 
     public interface OnCardDragListener {
 
-        void onDraggingStateChanged(View view, boolean isDragging, boolean isDropped, float offsetX, float offsetY);
+        void onCardDrag(View view, boolean isDragging, boolean isDragged, float offsetX, float offsetY);
 
-        void onCardDragging(View view, float offsetX, float offsetY);
     }
 
 }
