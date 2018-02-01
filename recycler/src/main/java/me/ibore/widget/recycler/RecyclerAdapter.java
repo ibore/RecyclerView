@@ -261,16 +261,16 @@ public abstract class RecyclerAdapter<T, VH extends RecyclerHolder> extends Recy
         RecyclerHolder holder;
         switch (viewType) {
             case TYPE_LOAD:
-                holder = new RecyclerHolder(mLoadView);
+                holder = RecyclerHolder.create(mLoadView);
                 break;
             case TYPE_HEADER:
-                holder = new RecyclerHolder(mHeaderView);
+                holder = RecyclerHolder.create(mHeaderView);
                 break;
             case TYPE_FOOTER:
-                holder = new RecyclerHolder(mFooterView);
+                holder = RecyclerHolder.create(mFooterView);
                 break;
             case TYPE_LOADMORE:
-                holder = new RecyclerHolder(mLoadMoreView);
+                holder = RecyclerHolder.create(mLoadMoreView);
                 break;
             default:
                 holder = onCreateRecyclerViewHolder(parent, viewType);
@@ -317,7 +317,6 @@ public abstract class RecyclerAdapter<T, VH extends RecyclerHolder> extends Recy
             clearAnimator(holder.itemView);
         }
     }
-
 
     @Override
     public int getItemCount() {
@@ -409,6 +408,7 @@ public abstract class RecyclerAdapter<T, VH extends RecyclerHolder> extends Recy
         });
         return view;
     }
+
     /**************************************** LoadView ***************************************/
     /**************************************** LoadMoreView ***************************************/
 
@@ -492,17 +492,14 @@ public abstract class RecyclerAdapter<T, VH extends RecyclerHolder> extends Recy
         if (null == mHeaderView) throw new NullPointerException("The HeaderView can't empty View");
         return mHeaderView;
     }
-
     public void removeHeaderView() {
         if (hasHeaderView()) mHeaderView.removeAllViews();
         mHeaderView = null;
         notifyDataSetChanged();
     }
-
     public boolean hasHeaderView() {
         return null != mHeaderView;
     }
-
     public boolean isHeaderView(int position) {
         if (hasHeaderView()) {
             int otherPostion = 1;
@@ -510,7 +507,6 @@ public abstract class RecyclerAdapter<T, VH extends RecyclerHolder> extends Recy
         }
         return false;
     }
-
     public void addFooterView(View footerView) {
         mFooterView = new LinearLayout(footerView.getContext());
         mFooterView.setLayoutParams(new ViewGroup.LayoutParams(
@@ -518,22 +514,18 @@ public abstract class RecyclerAdapter<T, VH extends RecyclerHolder> extends Recy
         mFooterView.setOrientation(LinearLayout.VERTICAL);
         mFooterView.addView(footerView);
     }
-
     public View getFooterView() {
         if (null == mFooterView) throw new NullPointerException("The FooterView can't empty View");
         return mFooterView;
     }
-
     public void removeFooterView() {
         if (hasHeaderView()) mFooterView.removeAllViews();
         mFooterView = null;
         notifyDataSetChanged();
     }
-
     public boolean hasFooterView() {
         return null != mFooterView;
     }
-
     public boolean isFooterView(int position) {
         if (hasFooterView()) {
             int otherPostion = 1;

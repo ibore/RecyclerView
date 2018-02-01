@@ -55,7 +55,7 @@ publish {
     userOrg = 'ibore'
     groupId = 'me.ibore.widget'
     artifactId = 'recyclerview'
-    publishVersion = '1.0.0'
+    publishVersion = '1.2.0'
     desc = 'Faster, more convenient use of the Recyclerview'
     website = 'https://github.com/ibore/recyclerview'
 }

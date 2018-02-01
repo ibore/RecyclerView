@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ibore.widget.recycler.CommonAdapter;
+import me.ibore.widget.recycler.RecyclerAdapter;
 import me.ibore.widget.recycler.RecyclerHolder;
 
 
@@ -80,41 +81,32 @@ public class CardRecyclerView extends RecyclerView {
             getAdapter().delItem(0);
     }
 
-    public static abstract class CardAdapter<T> extends Adapter<RecyclerHolder> {
+    public static abstract class CardAdapter<T> extends RecyclerAdapter<T, RecyclerHolder> {
 
-        private List<T> mDatas;
         private List<T> tempDatas;
 
         public CardAdapter() {
             tempDatas = new ArrayList<>();
         }
 
-        public void setDatas(List<T> datas) {
-            this.mDatas = datas;
-        }
-
-        public List<T> getDatas() {
-            return mDatas;
-        }
-
         protected void delItem(int position) {
-            if (null != mDatas && mDatas.size() > 0) {
-                mDatas.remove(position);
+            if (null != getDatas() && getDatas().size() > 0) {
+                getDatas().remove(position);
                 notifyItemRemoved(position);
             }
         }
 
         protected void recycleData() {
             if (isEnableDataRecycle()) {
-                if (mDatas.size() > getVisibleCardCount() + 1) {
-                    tempDatas.add(mDatas.get(0));
+                if (getDatas().size() > getVisibleCardCount() + 1) {
+                    tempDatas.add(getDatas().get(0));
                     delItem(0);
                 } else {
-                    tempDatas.add(mDatas.get(0));
-                    mDatas.remove(0);
+                    tempDatas.add(getDatas().get(0));
+                    getDatas().remove(0);
                     notifyItemRemoved(0);
-                    int start = mDatas.size();
-                    mDatas.addAll(tempDatas);
+                    int start = getDatas().size();
+                    getDatas().addAll(tempDatas);
                     notifyItemRangeInserted(start, tempDatas.size());
                     tempDatas.clear();
                 }
@@ -129,24 +121,6 @@ public class CardRecyclerView extends RecyclerView {
             return false;
         }
 
-        @Override
-        public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return RecyclerHolder.create(parent, getLayoutId());
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerHolder holder, int position) {
-            convert(holder, mDatas.get(position), position);
-        }
-
-        @Override
-        public int getItemCount() {
-            return null == mDatas ? 0 : mDatas.size();
-        }
-
-        protected abstract int getLayoutId();
-
-        protected abstract void convert(RecyclerHolder holder, T t, int position);
     }
 
     public static abstract class CardManager extends RecyclerView.LayoutManager implements View.OnTouchListener {

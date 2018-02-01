@@ -33,13 +33,17 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
 
     private SparseArray<View> mViews;
 
-    public RecyclerHolder(View itemView) {
+    private RecyclerHolder(View itemView) {
         super(itemView);
         mViews = new SparseArray<>();
     }
 
     public static RecyclerHolder create(ViewGroup parent, @LayoutRes int layoutId) {
         return new RecyclerHolder(LayoutInflater.from(parent.getContext()).inflate(layoutId, null));
+    }
+
+    public static RecyclerHolder create(View itemView) {
+        return new RecyclerHolder(itemView);
     }
 
     public View getItemView() {
@@ -84,7 +88,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public EditText getEditText(@IdRes int id) {
         EditText view = (EditText) mViews.get(id);
         if (null == view) {
-            view = (EditText) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return  view;
@@ -93,7 +97,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public ImageButton getImageButton(@IdRes int id) {
         ImageButton view = (ImageButton) mViews.get(id);
         if (null == view) {
-            view = (ImageButton) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return  view;
@@ -103,7 +107,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public ProgressBar getProgressBar(@IdRes int id) {
         ProgressBar view = (ProgressBar) mViews.get(id);
         if (null == view) {
-            view = (ProgressBar) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return  view;
@@ -112,7 +116,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public ImageView getImageView(@IdRes int id) {
         ImageView view = (ImageView) mViews.get(id);
         if (null == view) {
-            view = (ImageView) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return  view;
@@ -122,7 +126,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public Button getButton(@IdRes int id) {
         Button view = (Button) mViews.get(id);
         if (null == view) {
-            view = (Button) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return  view;
@@ -131,7 +135,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public CheckBox getCheckBox(@IdRes int id) {
         CheckBox view = (CheckBox) mViews.get(id);
         if (null == view) {
-            view = (CheckBox) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return view;
@@ -140,7 +144,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public RadioButton getRadioButton(@IdRes int id) {
         RadioButton view = (RadioButton) mViews.get(id);
         if (null == view) {
-            view = (RadioButton) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return view;
@@ -149,7 +153,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public RadioGroup getRadioGroup(@IdRes int id) {
         RadioGroup view = (RadioGroup) mViews.get(id);
         if (null == view) {
-            view = (RadioGroup) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return view;
@@ -158,7 +162,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public Spinner getSpinner(@IdRes int id) {
         Spinner view = (Spinner) mViews.get(id);
         if (null == view) {
-            view = (Spinner) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return view;
@@ -167,7 +171,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public RatingBar getRatingBar(@IdRes int id) {
         RatingBar view = (RatingBar) mViews.get(id);
         if (null == view) {
-            view = (RatingBar) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return view;
@@ -176,7 +180,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public LinearLayout getLinearLayout(@IdRes int id) {
         LinearLayout view = (LinearLayout) mViews.get(id);
         if (null == view) {
-            view = (LinearLayout) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return  view;
@@ -185,7 +189,7 @@ public class RecyclerHolder<VH extends RecyclerHolder> extends RecyclerView.View
     public RelativeLayout getRelativeLayout(@IdRes int id) {
         RelativeLayout view = (RelativeLayout) mViews.get(id);
         if (null == view) {
-            view = (RelativeLayout) itemView.findViewById(id);
+            view = itemView.findViewById(id);
             mViews.append(id, view);
         }
         return  view;

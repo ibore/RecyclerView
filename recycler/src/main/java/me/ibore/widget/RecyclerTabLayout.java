@@ -1,6 +1,7 @@
 package me.ibore.widget;
 
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -20,6 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
+import me.ibore.widget.recycler.CommonAdapter;
+import me.ibore.widget.recycler.RecyclerAdapter;
+import me.ibore.widget.recycler.RecyclerHolder;
 
 
 public class RecyclerTabLayout extends RecyclerView {
@@ -425,8 +431,7 @@ public class RecyclerTabLayout extends RecyclerView {
         }
     }
 
-    public static abstract class Adapter<T extends RecyclerView.ViewHolder>
-            extends RecyclerView.Adapter<T> {
+    public static abstract class Adapter<T> extends RecyclerAdapter<T, RecyclerHolder> {
 
         protected ViewPager mViewPager;
         protected int mIndicatorPosition;
@@ -448,8 +453,7 @@ public class RecyclerTabLayout extends RecyclerView {
         }
     }
 
-    public static class DefaultAdapter
-            extends RecyclerTabLayout.Adapter<DefaultAdapter.ViewHolder> {
+    public static class DefaultAdapter extends RecyclerTabLayout.Adapter<String> {
 
         protected static final int MAX_TAB_TEXT_LINES = 2;
 
@@ -469,9 +473,10 @@ public class RecyclerTabLayout extends RecyclerView {
             super(viewPager);
         }
 
+        @SuppressLint("RestrictedApi")
         @SuppressWarnings("deprecation")
         @Override
-        public DefaultAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             TabTextView tabTextView = new TabTextView(parent.getContext());
 
             if (mTabSelectedTextColorSet) {
@@ -508,18 +513,32 @@ public class RecyclerTabLayout extends RecyclerView {
                         AppCompatDrawableManager.get().getDrawable(tabTextView.getContext(), mTabBackgroundResId));
             }
             tabTextView.setLayoutParams(createLayoutParamsForTabs());
-            return new ViewHolder(tabTextView);
+            return RecyclerHolder.create(tabTextView);
         }
 
         @Override
-        public void onBindViewHolder(DefaultAdapter.ViewHolder holder, int position) {
+        protected RecyclerHolder onCreateRecyclerViewHolder(ViewGroup parent, int viewType) {
+            return null;
+        }
+
+        @Override
+        protected void onBindRecyclerViewHolder(final RecyclerHolder holder, List<String> mDatas, int position) {
             CharSequence title = getViewPager().getAdapter().getPageTitle(position);
-            holder.title.setText(title);
-            holder.title.setSelected(getCurrentIndicatorPosition() == position);
+            ((TabTextView)holder.getItemView()).setText(title);
+            holder.getItemView().setSelected(getCurrentIndicatorPosition() == position);
+            holder.getItemView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getAdapterPosition();
+                    if (pos != NO_POSITION) {
+                        getViewPager().setCurrentItem(pos, true);
+                    }
+                }
+            });
         }
 
         @Override
-        public int getItemCount() {
+        public int getRecyclerItemCount() {
             return getViewPager().getAdapter().getCount();
         }
 
@@ -562,24 +581,6 @@ public class RecyclerTabLayout extends RecyclerView {
                     LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
-
-            public TextView title;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                title = (TextView) itemView;
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int pos = getAdapterPosition();
-                        if (pos != NO_POSITION) {
-                            getViewPager().setCurrentItem(pos, true);
-                        }
-                    }
-                });
-            }
-        }
     }
 
 

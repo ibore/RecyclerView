@@ -23,4 +23,5 @@ public abstract class CommonAdapter<T> extends RecyclerAdapter<T, RecyclerHolder
     protected abstract int getLayoutId();
 
     protected abstract void convert(RecyclerHolder holder, T t, int position);
+
 }
